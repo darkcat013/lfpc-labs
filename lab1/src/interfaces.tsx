@@ -1,4 +1,7 @@
-
+export interface GrammarTextFieldInfo {
+    key: string;
+    value: string;
+}
 export interface Relation {
     from?: string;
     to?: string;

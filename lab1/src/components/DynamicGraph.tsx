@@ -22,6 +22,7 @@ const DynamicGraph: React.FC<Relations> = ({ relations }) => {
 		setNodes(tempNodes);
 
 		let angle = Math.PI;
+		let roundness = 0;
 		let tempEdges = relations.map(x => ({
 			from: x.from,
 			to: x.to,
@@ -30,6 +31,11 @@ const DynamicGraph: React.FC<Relations> = ({ relations }) => {
 			{
 				size: 20,
 				angle: angle += 1
+			},
+			smooth: {
+				enabled: true,
+				type: "curvedCW",
+				roundness: roundness +=0.1
 			}
 		}));
 
@@ -50,12 +56,7 @@ const DynamicGraph: React.FC<Relations> = ({ relations }) => {
 			}
 		},
 		edges: {
-			color: "#000000",
-			smooth: {
-				enabled: true,
-				type: "discrete",
-				roundness: 0.7
-			}
+			color: "#000000"
 		},
 		height: "500px",
 		width: "700px"
