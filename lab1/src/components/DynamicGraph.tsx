@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Graph from "react-vis-graph-wrapper";
-import {  Relations } from '../interfaces';
+import { Relations } from '../interfaces';
 import "../styles.css"
 const DynamicGraph: React.FC<Relations> = ({ relations }) => {
 

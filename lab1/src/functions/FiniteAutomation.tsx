@@ -22,14 +22,14 @@ export const finiteAutomation = (input: Map<string, string[]>): Relation[] => {
 			else {
 				output.push({
 					from: outputNodes.get(key),
-					to: "q"+input.size,
+					to: "q" + input.size,
 					edgeLabel: value[0],
 				})
 			}
 		}
 	}
 	output.push({
-		from: "q"+input.size
+		from: "q" + input.size
 	})
 	return output;
 }
