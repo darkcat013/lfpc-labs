@@ -14,10 +14,12 @@ const InputField: React.FC = () => {
 
 	return (
 		<Grid container direction="row" xs={12} sx={{ ml: 2, mt: 2 }}>
-			<Grid item xs = {4} container  direction = "column" >
+			<Grid item xs = {3} container  direction = "column" >
 				<Grid item>
 					<Box >
-						Variant 15. VN=&#123;S, A, B&#125;, VT=&#123;a, b, c&#125;, <br />
+						Variant 15. <br/>
+						VN=&#123;S, A, B&#125;, <br/>
+						VT=&#123;a, b, c&#125;, <br />
 						P=&#123;<br />
 						1. S -&gt; aS<br />
 						2. S -&gt; bS<br />
@@ -32,7 +34,7 @@ const InputField: React.FC = () => {
 					<StringChecker map = {input} />
 				</Grid>
 			</Grid>
-			<Grid item xs = {8}>
+			<Grid item xs = {9}>
 				<DynamicGraph relations={finiteAutomation(input)} />
 			</Grid>
 		</Grid>

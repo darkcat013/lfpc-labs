@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Graph from "react-vis-graph-wrapper";
 import {  Relations } from '../interfaces';
-
+import "../styles.css"
 const DynamicGraph: React.FC<Relations> = ({ relations }) => {
 
 	const [nodes, setNodes] = useState<any[]>([]);
@@ -50,15 +50,21 @@ const DynamicGraph: React.FC<Relations> = ({ relations }) => {
 			}
 		},
 		edges: {
-			color: "#000000"
+			color: "#000000",
+			smooth: {
+				enabled: true,
+				type: "discrete",
+				roundness: 0.7
+			}
 		},
 		height: "500px",
-		width: "500px"
+		width: "700px"
 	};
 	return (
 		<Graph
 			graph={graph}
 			options={options}
+			className="graph"
 		/>
 	);
 }
