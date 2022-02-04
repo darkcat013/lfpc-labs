@@ -6,7 +6,7 @@ export const checkString = (map: Map<string, string[]>, str: string): boolean =>
 	else return false;
 }
 
-const check = (map: Map<string, string[]>, next: string, pos: number, str: string): boolean => {
+const check = (map: Map<string, string[]>, next: string, pos: number, str: string): boolean | undefined => {
 	let cont = map.get(next)?.filter(x => x[0] === str[pos])[0];
 	
 	if(cont === undefined) {
