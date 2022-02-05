@@ -1,9 +1,14 @@
 import { Button, Grid, TextField } from "@mui/material"
 import React, { useEffect, useRef, useState } from "react"
-import { checkString } from "../functions/StringCheck";
-import { MapStringStringArr } from "../interfaces"
+import { checkString, checkStringAutomata } from "../functions/StringCheck";
+import { Relation} from "../interfaces"
 
-const StringChecker: React.FC<MapStringStringArr> = ({ map }) => {
+interface StringCheck {
+	map: Map<string, string[]>
+	relations: Relation[]
+}
+
+const StringChecker: React.FC<StringCheck> = ({ map, relations }) => {
 
 	const textField = useRef<any>(null);
 	const [startingChars, setStartingChars] = useState<string[] | undefined>();
@@ -21,9 +26,11 @@ const StringChecker: React.FC<MapStringStringArr> = ({ map }) => {
 		}
 		setEndingChars(tempEndChars);
 
-	}, [])
+	}, [map])
 
 	const handleClick = () => {
+		console.log(relations);
+		console.log(map);
 		let str = textField.current.value;
 		if (str.length < 2) {
 			alert("string is too short")
@@ -34,7 +41,7 @@ const StringChecker: React.FC<MapStringStringArr> = ({ map }) => {
 		else if (!endingChars?.includes(str[str.length - 1])) {
 			alert("Wrong terminal character")
 		}
-		else if (checkString(map, str)) {
+		else if (checkStringAutomata(relations, str)) {
 			alert("String is correct")
 		}
 	}

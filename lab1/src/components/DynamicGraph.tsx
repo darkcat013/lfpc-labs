@@ -8,6 +8,7 @@ const DynamicGraph: React.FC<Relations> = ({ relations }) => {
 	const [edges, setEdges] = useState<any[]>([]);
 
 	useEffect(() => {
+		
 		let uniqueKeys = [...new Set(relations.map(x => x.from))];
 
 		let tempNodes = uniqueKeys.map(from => ({
@@ -58,8 +59,7 @@ const DynamicGraph: React.FC<Relations> = ({ relations }) => {
 		edges: {
 			color: "#000000"
 		},
-		height: "500px",
-		width: "700px"
+		height: "500px"
 	};
 	return (
 		<Graph

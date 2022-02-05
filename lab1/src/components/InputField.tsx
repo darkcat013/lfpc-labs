@@ -61,7 +61,6 @@ const InputField: React.FC = () => {
 		tempValues[index].value = event.target.value;
 		setTextFieldsValues(tempValues);
 	}
-
 	let textFields = textFieldsValues.map((x: any, index: any) => {
 		return (
 			<Grid item key={index} sx={{ mt: 1 }}>
@@ -100,13 +99,13 @@ const InputField: React.FC = () => {
 					</Grid>
 				</Grid>
 				<Grid item sx={{ mt: 3, pt: 3, borderTop: 1 }}>
-					<StringChecker map={input} />
+					<StringChecker map={input} relations = {finiteAutomation(input)} />
 				</Grid>
 			</Grid>
-			<Grid item xs={6}>
+			<Grid item xs={6} sx={{borderRight: 1}}>
 				<DynamicGraph relations={finiteAutomation(input)} />
 			</Grid>
-			<Grid item xs={3} sx={{ borderLeft: 1, pl: 1 }}>
+			<Grid item xs={3} sx={{ pl: 1 }}>
 				<Box >
 					Variant 15. <br />
 					VN=&#123;S, A, B&#125;, <br />
