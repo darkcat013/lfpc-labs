@@ -28,7 +28,7 @@ export const checkStringAutomata = (relations: Relation[], str:string) : boolean
 	else return false;
 }
 
-const checkWithAutomata = (relations: Relation[], str: string, pos: number, from: string) : boolean => {
+const checkWithAutomata = (relations: Relation[], str: string, pos: number, from: string | undefined) : boolean => {
 	let next = relations.filter(x => x.from === from && x.edgeLabel === str[pos]).map(x => x.to);
 	pos++;
 	console.log(from, next)
