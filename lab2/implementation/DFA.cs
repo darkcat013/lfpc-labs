@@ -56,7 +56,6 @@ namespace lab2
                 .Where(x => x.Key == state);
             List<Tuple<string,string,string>> result = new List<Tuple<string,string, string>>();
             newStates = new List<string>();
-            newStates.Add("q4");
             foreach (var transition in transitions)
             {
                 foreach (var pair in transition)
