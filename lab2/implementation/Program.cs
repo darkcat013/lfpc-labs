@@ -10,8 +10,11 @@ namespace lab2
             NFA nfa = new NFA("NFA.txt");
             nfa.PrintConsole();
 
-            Console.WriteLine("\nDFA:");
+            Console.WriteLine();
             DFA dfa = new DFA(nfa);
+
+            Console.WriteLine("\nDFA:");
+            dfa.PrintConsole();
         }
     }
 }

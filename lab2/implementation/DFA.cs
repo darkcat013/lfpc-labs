@@ -10,72 +10,63 @@ namespace lab2
     {
         public DFA(NFA nfa)
         {
-            TransitionVariables = nfa.TransitionVariables;
-            Map = NFAtoDFA(nfa);
+            NFAtoDFA(nfa);
         }
-        public Lookup<string, Tuple<string, string>> NFAtoDFA(NFA nfa)
+        public void NFAtoDFA(NFA nfa)
         {
-            Queue<string> statesToProcess = new Queue<string>();
-            statesToProcess.Enqueue("q0");
+            Map = new Dictionary<string, Dictionary<string, List<string>>>();
+            ProcessState(new List<string> {"q0"}, nfa.Map, new List<string>());
+            JoinTransitions();
+        }
+
+        private void ProcessState(List<string> states, Dictionary<string, Dictionary<string, List<string>>> nfaMap, List<string> processedStates)
+        {
+            string stateName = string.Join("", states);
+            if(processedStates.Contains(stateName))
+            {
+                return;
+            }
+            if(!Map.ContainsKey(stateName))
+            {
+                Console.WriteLine($"- Adding state {stateName} to DFA");
+                Map[stateName] = new Dictionary<string, List<string>>();
+            }
+
+            foreach (string state in states)
+            {
+                if (!nfaMap.ContainsKey(state))
+                {
+                    return;
+                }
+                foreach (var transitionVariable in nfaMap[state])
+                {
+                    if (!Map[stateName].ContainsKey(transitionVariable.Key))
+                    {
+                        Map[stateName][transitionVariable.Key] = new List<string>();
+                    }
+                    Console.WriteLine($"- Adding transition d({stateName}, {transitionVariable.Key}) = {string.Join("", transitionVariable.Value)}");
+                    Map[stateName][transitionVariable.Key].AddRange(transitionVariable.Value);
+                }
+            }
+            processedStates.Add(stateName);
             
-            List<string> processedStates = new List<string>();
-            List<Tuple<string, string, string>> transitions = new List<Tuple<string, string,string>>();
-            while(statesToProcess.Count > 0)
+            foreach(var transitionVariable in Map[stateName])
             {
-                string nextState = statesToProcess.Dequeue();
-
-                Console.WriteLine($"- Starting to process state '{nextState}'");
-
-                List<string> newStates;
-                var processedTransitions = ProcessState(nextState, processedStates, nfa.Map, out newStates);
-
-                if (processedTransitions?.Count > 0)
-                {
-                    transitions.AddRange(processedTransitions);
-                }
-                else
-                {
-                    Console.WriteLine("ehe");
-                }
-                if(newStates?.Count > 0)
-                {
-                    newStates.ForEach(statesToProcess.Enqueue);
-                }
-                processedStates.Add(nextState);
+                ProcessState(transitionVariable.Value, nfaMap, processedStates);
             }
-
-            var result = transitions
-                .ToLookup(x => x.Item1, x => new Tuple<string, string>(x.Item2, x.Item3))
-                as Lookup<string, Tuple<string, string>>;
-
-            return result;
         }
-        private List<Tuple<string, string, string>> ProcessState(string state, List<string> processedStates, Lookup<string, Tuple<string, string>> nfaMap, out List<string> newStates)
-        {
-            var transitions = nfaMap
-                .Where(x => x.Key == state);
-            List<Tuple<string,string,string>> result = new List<Tuple<string,string, string>>();
-            newStates = new List<string>();
-            foreach (var transition in transitions)
-            {
-                foreach (var pair in transition)
-                {
-                    Console.WriteLine($"d({transition.Key}, {pair.Item1}) = {pair.Item2}");
-                    result.Add(Tuple.Create(transition.Key,pair.Item1,pair.Item2));
 
+        private void JoinTransitions()
+        {
+            foreach(var state in Map)
+            {
+                foreach(var transitionVariable in state.Value)
+                {
+                    var finalState = string.Join("", transitionVariable.Value);
+                    transitionVariable.Value.Clear();
+                    transitionVariable.Value.Add(finalState);
                 }
             }
-            return result;
-        }
-
-        private List<Tuple<string, string, string>> ProcessSingleState(string state, List<string> processedStates, Lookup<string, Tuple<string, string>> nfaMap)
-        {
-            return default;
-        }
-
-        private List<Tuple<string, string, string>> ProcessCombinedState(List<string> states, List<string> processedStates, Lookup<string, Tuple<string, string>> nfaMap)
-        {
-            return default;
         }
     }
 }

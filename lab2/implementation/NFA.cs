@@ -8,8 +8,7 @@ namespace lab2
 {
     public class NFA
     {
-        public Lookup<string, Tuple<string, string>>? Map { get; set; }
-        public List<string>? TransitionVariables { get; set; }
+        public Dictionary<string, Dictionary<string, List<string>>> Map { get; set; } = new Dictionary<string, Dictionary<string, List<string>>>();
         protected NFA() { }
         public NFA(string path)
         {
@@ -18,25 +17,31 @@ namespace lab2
 
         public void ReadFromFile(string path)
         {
-            string[]? transitions = File.ReadAllLines(path);
-            Map = transitions
-                .Select(x => x.Split(' '))
-                .ToLookup(x => x[0], x => new Tuple<string, string>(x[1], x[2]))
-                as Lookup<string, Tuple<string, string>>;
-
-            TransitionVariables = transitions
-                .Select(x => x.Split(' ')[1])
-                .Distinct()
-                .ToList();
+            var transitions = File.ReadAllLines(path).Select(x => x.Split(' '));
+            foreach (var transition in transitions)
+            {
+                if (!Map.ContainsKey(transition[0]))
+                {
+                    Map[transition[0]] = new Dictionary<string, List<string>>();
+                }
+                if (!Map[transition[0]].ContainsKey(transition[1]))
+                {
+                    Map[transition[0]][transition[1]] = new List<string>();
+                }
+                Map[transition[0]][transition[1]].Add(transition[2]);
+            }
         }
-        
+
         public void PrintConsole()
         {
-            foreach (var transition in Map)
+            foreach (var state in Map)
             {
-                foreach (var pair in transition)
+                foreach (var transitionVariable in state.Value)
                 {
-                    Console.WriteLine($"d({transition.Key}, {pair.Item1}) = {pair.Item2}");
+                    foreach (var toState in transitionVariable.Value)
+                    {
+                        Console.WriteLine($"d({state.Key}, {transitionVariable.Key}) = {toState}");
+                    }
                 }
             }
         }
