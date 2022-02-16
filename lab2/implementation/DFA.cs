@@ -28,8 +28,8 @@ namespace lab2
             }
             if(!Map.ContainsKey(stateName))
             {
-                Console.WriteLine($"- Adding state {stateName} to DFA");
                 Map[stateName] = new Dictionary<string, List<string>>();
+                Console.WriteLine($"- Added state {stateName} to DFA");
             }
 
             foreach (string state in states)
@@ -44,9 +44,18 @@ namespace lab2
                     {
                         Map[stateName][transitionVariable.Key] = new List<string>();
                     }
-                    Console.WriteLine($"- Adding transition d({stateName}, {transitionVariable.Key}) = {string.Join("", transitionVariable.Value)}");
-                    Map[stateName][transitionVariable.Key].AddRange(transitionVariable.Value);
+                    foreach(var toState in transitionVariable.Value)
+                    {
+                        if(!Map[stateName][transitionVariable.Key].Contains(toState))
+                        {
+                            Map[stateName][transitionVariable.Key].Add(toState);
+                        }
+                    }
                 }
+            }
+            foreach(var transitionVariable in Map[stateName])
+            {
+                Console.WriteLine($"- Added transition d({stateName}, {transitionVariable.Key}) = {string.Join("", transitionVariable.Value)}");
             }
             processedStates.Add(stateName);
             
