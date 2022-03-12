@@ -16,7 +16,7 @@ fun noroc(num1, num2)
 fun main()
 {
     var n1, n2
-    n1 = 2
+    n1 = 2.2
     n2 = n1 + 1
 
     var end = "end"

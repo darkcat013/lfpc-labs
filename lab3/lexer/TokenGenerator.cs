@@ -11,7 +11,7 @@ namespace lexer
         public static Token GenerateNumber(string code, PositionTracker positionTracker, List<Error> errors)
         {
             string tokenValue = "";
-
+            bool isFloat = false;
             for (; positionTracker.Position < code.Length; positionTracker.Position++)
             {
                 int i = positionTracker.Position;
@@ -24,7 +24,16 @@ namespace lexer
 
                 positionTracker.Column++;
 
-                if (code[i].IsDigit())
+                if(code[i] == '.' && isFloat)
+                {
+                    errors.Add(Error.UnexpectedSymbol(positionTracker, code[i]));
+                }
+                else if(code[i] == '.')
+                {
+                    tokenValue += code[i];
+                    isFloat = true;
+                }
+                else if (code[i].IsDigit())
                 {
                     tokenValue += code[i];
                 }
@@ -33,9 +42,14 @@ namespace lexer
                     errors.Add(Error.UnexpectedSymbol(positionTracker, code[i]));
                 }
             }
-            return errors.Count == 0 ? 
-                new Token(TokenType.Int, tokenValue) : 
-                null;
+            
+            if(errors.Count > 0)
+            {
+                return null;
+            }
+            return isFloat ?
+                new Token(TokenType.Float, tokenValue) :
+                new Token(TokenType.Int, tokenValue);
         }
 
         public static Token GenerateIdentifier(string code, PositionTracker positionTracker, List<Error> errors)

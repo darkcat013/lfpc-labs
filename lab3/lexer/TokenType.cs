@@ -35,5 +35,6 @@ namespace lexer
         public const string Return = "RETURN";
         public const string Or = "OR";
         public const string And = "AND";
+        public const string Float = "FLOAT";
     }
 }
