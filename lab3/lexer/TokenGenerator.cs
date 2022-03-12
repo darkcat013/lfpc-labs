@@ -122,7 +122,7 @@ namespace lexer
             return tokens;
         }
 
-        public static Token GenerateBoolOperator(string code, PositionTracker positionTracker, bool withEquals)
+        public static Token GenerateComparisonOperator(string code, PositionTracker positionTracker, bool withEquals)
         {
             string tokenValue = "";
             tokenValue += code[positionTracker.Position];
@@ -131,12 +131,13 @@ namespace lexer
             {
                 positionTracker.Position++;
                 positionTracker.Column++;
-                tokenValue += '=';
+                tokenValue += code[positionTracker.Position];
                 switch(tokenValue[0])
                 {
                     case '>': return new Token(TokenType.GreaterOrEqual, tokenValue);
                     case '<': return new Token(TokenType.LessOrEqual, tokenValue);
                     case '=': return new Token(TokenType.Equals, tokenValue);
+                    case '!': return new Token(TokenType.NotEquals, tokenValue);
                 }
             }
             else
@@ -146,8 +147,27 @@ namespace lexer
                     case '>': return new Token(TokenType.Greater, tokenValue);
                     case '<': return new Token(TokenType.Less, tokenValue);
                     case '=': return new Token(TokenType.Assignment, tokenValue);
+                    case '!': return new Token(TokenType.Not, tokenValue);
                 }
             }
+            return null;
+        }
+
+        public static Token GenerateBoolOperator(string code, PositionTracker positionTracker)
+        {
+            string tokenValue = "";
+            tokenValue += code[positionTracker.Position];
+
+            positionTracker.Position++;
+            positionTracker.Column++;
+            tokenValue += code[positionTracker.Position];
+
+            switch (tokenValue[0])
+            {
+                case '|': return new Token(TokenType.Or, tokenValue);
+                case '&': return new Token(TokenType.And, tokenValue);
+            }
+
             return null;
         }
     }

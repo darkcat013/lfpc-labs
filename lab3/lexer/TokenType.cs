@@ -29,8 +29,11 @@ namespace lexer
         public const string Less = "LESS";
         public const string LessOrEqual = "LESS_OR_EQUAL";
         public const string Not = "NOT";
+        public const string NotEquals = "NOT_EQUALS";
         public const string Equals = "EQUALS";
         public const string Assignment = "ASSIGNMENT";
         public const string Return = "RETURN";
+        public const string Or = "OR";
+        public const string And = "AND";
     }
 }

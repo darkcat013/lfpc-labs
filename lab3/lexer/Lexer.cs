@@ -99,15 +99,26 @@ namespace lexer
                 {
                     Tokens.Add(new Token(TokenType.Return, "~"));
                 }
-                else if (Code[i].IsBoolOperator() || Code[i] == '=')
+                else if (Code[i].IsComparisonOperator() || Code[i] == '=')
                 {
                     if(i < Code.Length - 1 && Code[i + 1] == '=')
                     {
-                        Tokens.Add(TokenGenerator.GenerateBoolOperator(Code, PositionTracker, true));
+                        Tokens.Add(TokenGenerator.GenerateComparisonOperator(Code, PositionTracker, true));
                     }
                     else 
                     {
-                        Tokens.Add(TokenGenerator.GenerateBoolOperator(Code, PositionTracker, false));
+                        Tokens.Add(TokenGenerator.GenerateComparisonOperator(Code, PositionTracker, false));
+                    }
+                }
+                else if (Code[i].IsBoolOperatorStart())
+                {
+                    if(i < Code.Length - 1 && Code[i + 1] == Code[i])
+                    {
+                        Tokens.Add(TokenGenerator.GenerateBoolOperator(Code, PositionTracker));
+                    }
+                    else
+                    {
+                        Errors.Add(Error.UnexpectedSymbol(PositionTracker, Code[i ]));
                     }
                 }
                 else

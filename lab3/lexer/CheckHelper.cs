@@ -44,7 +44,7 @@ namespace lexer
         {
             return c == '+' || c == '-' || c == '*' || c == '/';
         }
-        public static bool IsBoolOperator(this char c)
+        public static bool IsComparisonOperator(this char c)
         {
             return c == '>' || c == '<' || c == '!';
         }
@@ -54,7 +54,7 @@ namespace lexer
         }
         public static bool IsOperator(this char c)
         {
-            return c.IsMathOperator() || c.IsAssignment() || c.IsBoolOperator();
+            return c.IsMathOperator() || c.IsAssignment() || c.IsComparisonOperator();
         }
         public static bool IsParantheses(this char c)
         {
@@ -63,6 +63,10 @@ namespace lexer
         public static bool IsBrace(this char c)
         {
             return c == '{' || c == '}';
+        }
+        public static bool IsBoolOperatorStart(this char c)
+        {
+            return c == '|' || c == '&';
         }
     }
 }
