@@ -84,6 +84,7 @@ namespace lexer
             }
             if(tokenValue.IsKeyword())
             {
+
                 return new Token($"{TokenType.Keyword}[{Constants.Keywords[tokenValue]}]", tokenValue);
             }
             if (tokenValue.IsPredefinedFunction())
