@@ -4,14 +4,14 @@
     {
         public static Grammar RemoveEmpty(this Grammar grammar)
         {
+            grammar.Cleanup();
             var keyWithEmpty = grammar.KeyWithEmpty();
-            if(keyWithEmpty is null)
-            {
-                grammar.Cleanup();
+            if (keyWithEmpty is null)
+            { 
                 grammar.CleanTerminalNonTerminal();
                 return grammar;
             }
-            grammar.P[keyWithEmpty].RemoveWhere(x => x.Equals("ε"));
+            grammar.P[keyWithEmpty].RemoveWhere(x => x.Equals("ε") || string.IsNullOrEmpty(x));
 
             var grammarProductionsCopy = grammar.CloneProductions();
 
@@ -33,7 +33,7 @@
         {
             foreach (var (key, value) in grammar.P)
             {
-                if (value.Contains("ε") || value.Contains("")) return key;
+                if (value.Contains("ε") || value.Where(x => string.IsNullOrEmpty(x)).Any()) return key;
             }
             return null;
         }
@@ -75,7 +75,6 @@
             foreach (var (key, value) in grammar.P)
             {
                 var newValue  = value.Select(x => x.Replace("ε","")).ToHashSet();
-
                 result.Add(key, newValue);
             }
             grammar.P = result;
