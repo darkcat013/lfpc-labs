@@ -51,12 +51,12 @@
         private static List<string> Combinations(string str, List<int> matchingIndexes)
         {
             List<string> results = new();
-            int totalCombinations = (int)Math.Pow(2, matchingIndexes.Count);
-            for(; totalCombinations > 1; totalCombinations--)
+            int totalCombinations = (int)Math.Pow(2, matchingIndexes.Count)-1;
+            for(; totalCombinations > 0; totalCombinations--)
             {
                 var bits = Convert.ToString(totalCombinations, 2);
                 var strCopy = str;
-                for(int i = 0; i < bits.Length && i<matchingIndexes.Count; i++)
+                for (int i = 0; i < bits.Length && i < matchingIndexes.Count && i < strCopy.Length; i++)
                 {
                     if (bits[i] == '1')
                     {
