@@ -60,7 +60,7 @@
                 {
                     if (bits[i] == '1')
                     {
-                        strCopy = strCopy.Remove(matchingIndexes[i], 1);
+                        strCopy = strCopy.Remove(matchingIndexes[i]-i, 1);
                     }
                 }
                 if (string.IsNullOrEmpty(strCopy)) results.Add("ε");

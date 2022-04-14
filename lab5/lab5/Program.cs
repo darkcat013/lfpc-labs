@@ -15,5 +15,5 @@ var precedenceMatrix = new PrecedenceMatrix(firstLastTable, grammar);
 Console.WriteLine("Rules and Precedence matrix: ");
 Console.WriteLine(precedenceMatrix);
 
-var parser = new Parser(grammar, precedenceMatrix.M);
 Console.WriteLine("Parsing: ");
+var parser = new Parser(grammar, precedenceMatrix.M);

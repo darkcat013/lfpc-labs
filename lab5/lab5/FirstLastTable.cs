@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace lab5
+﻿namespace lab5
 {
     public class FirstLastTable
     {
@@ -86,7 +80,7 @@ namespace lab5
 
         public override string ToString()
         {
-            Console.WriteLine("\tFirst\tLast");
+            Console.WriteLine("\tFirst\t\tLast");
             string result = "";
             foreach (var (key, values) in Table)
             {
@@ -96,7 +90,7 @@ namespace lab5
                     result += $"{value}, ";
                 }
                 result = result.Remove(result.Length - 2);
-                result += "\t";
+                result += "\t\t";
 
                 foreach (var value in values.Item2)
                 {

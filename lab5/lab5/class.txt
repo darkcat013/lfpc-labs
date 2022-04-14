@@ -1,0 +1,10 @@
+S A B D T
+a b c d
+dabacba
+S->dB
+B->a
+B->aA
+A->D
+A->TcA
+D->bB
+T->D

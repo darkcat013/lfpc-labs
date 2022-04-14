@@ -1,13 +1,10 @@
-S A B C D
+S A B
 a b
-S->AC
-S->bA
-S->B
-S->aA
-A->ε
-A->aS
-A->ABab
-B->a
+S->aB
+S->aAB
+A->a
+A->B
+A->ABaAB
+B->aA
 B->bS
-C->abC
-D->AB
+B->ε
