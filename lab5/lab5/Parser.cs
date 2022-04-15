@@ -2,15 +2,21 @@
 {
     public class Parser
     {
-        public List<string> ParsingValue { get; set; }
+        public List<string> ParsingValue { get; set; } = new();
 
         public Parser(Grammar grammar, MapMatrix m)
         {
+            Console.WriteLine($"Input: {grammar.Input}");
             string initialParsing = "$<";
             for(int i = 1; i < grammar.Input.Length; i++)
             {
                 string left = grammar.Input[i - 1].ToString();
                 string right = grammar.Input[i].ToString();
+                if(string.IsNullOrEmpty(m.Matrix[left][right]))
+                {
+                    Console.WriteLine($"Could not parse Input at character: {right}");
+                    return;
+                }
                 initialParsing += $"{left}{m.Matrix[left][right]}";
             }
             initialParsing += $"{grammar.Input[^1]}>$";
@@ -32,6 +38,11 @@
             }
             var keysWithDerivation = grammar.P.Where(x =>x.Value.Contains(derivation)).Select(x => x.Key).ToList();
             var newDerivation = "";
+            if(!keysWithDerivation.Any())
+            {
+                Console.WriteLine("Could not parse Input");
+                return;
+            }
             if(keysWithDerivation.Count == 1) newDerivation = keysWithDerivation[0];
             else
             {
@@ -47,6 +58,11 @@
                     }
                 }
                 newDerivation = possibleDerivation;
+            }
+            if(string.IsNullOrEmpty(newDerivation))
+            {
+                Console.WriteLine("Could not parse Input");
+                return;
             }
             ParsingValue.RemoveRange(posLeft + 1, posRight - posLeft - 1);
             ParsingValue.Insert(posLeft + 1, newDerivation);
