@@ -4,7 +4,7 @@ dabacba
 S->dB
 B->a
 B->aA
+T->D
 A->D
 A->TcA
 D->bB
-T->D

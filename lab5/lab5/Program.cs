@@ -1,6 +1,6 @@
 ﻿using lab5;
 
-var path = "../../../variant15.txt";
+var path = "../../../class.txt";
 var grammar = new Grammar(path, "S");
 
 Console.WriteLine("Initial grammar: ");

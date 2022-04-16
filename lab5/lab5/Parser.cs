@@ -27,14 +27,14 @@
         private void Parse(Grammar grammar, MapMatrix m)
         {
             if (ParsingValue.Contains("S")) return;
-            int posRight = 1;
-            int posLeft = 1;
+            int posRight = ParsingValue.Count-1;
+            int posLeft = posRight;
             string derivation = "";
-            while (ParsingValue[posRight] != ">")
+            while (ParsingValue[posLeft] != "<")
             {
-                if (ParsingValue[posRight] == "<") { posLeft = posRight; derivation = ""; }
-                else if (ParsingValue[posRight] != "=") derivation += ParsingValue[posRight];
-                posRight++;
+                if (ParsingValue[posLeft] == ">") { posRight = posLeft; derivation = ""; }
+                else if (ParsingValue[posLeft] != "=") derivation = derivation.Insert(0, ParsingValue[posLeft]);
+                posLeft--;
             }
             var keysWithDerivation = grammar.P.Where(x =>x.Value.Contains(derivation)).Select(x => x.Key).ToList();
             var newDerivation = "";
@@ -47,7 +47,7 @@
             else
             {
                 var possibleDerivation = "";
-                var bestPickedDefinitions = "";
+                var bestPickedDefinitions = "  ";
                 foreach (var key in keysWithDerivation)
                 {
                     var leftDefinition = m.Matrix[ParsingValue[posLeft - 1]][key];
@@ -55,8 +55,8 @@
                     var pickedDefinitions = leftDefinition + rightDefinition;
                     if(!string.IsNullOrEmpty(leftDefinition) && !string.IsNullOrEmpty(rightDefinition))
                     {
-                        if (leftDefinition == "=" && rightDefinition == "=") { possibleDerivation = key; bestPickedDefinitions = pickedDefinitions; }
-                        else if ((leftDefinition == "=" || rightDefinition == "=") && bestPickedDefinitions!="==") { possibleDerivation = key; bestPickedDefinitions = pickedDefinitions; }
+                        if (rightDefinition == "=") { possibleDerivation = key; bestPickedDefinitions = pickedDefinitions; }
+                        else if ((leftDefinition == "=") && bestPickedDefinitions[1]!='=') { possibleDerivation = key; bestPickedDefinitions = pickedDefinitions; }
                         else if (!bestPickedDefinitions.Contains('=')){ possibleDerivation = key; bestPickedDefinitions = pickedDefinitions; }
                         
                     }

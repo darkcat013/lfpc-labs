@@ -24,7 +24,10 @@
                 result.UnionWith(firsts);
 
                 Queue<string> queue = new();
-                result.Where(x => grammar.IsNonTerminal(x.First())).ToList().ForEach(x => queue.Enqueue(x));
+                result
+                    .Where(x => grammar.IsNonTerminal(x.First()))
+                    .ToList()
+                    .ForEach(x => queue.Enqueue(x));
 
                 while(queue.Count > 0)
                 {
@@ -33,7 +36,10 @@
                         .Select(x => x.First().ToString())
                         .ToList();
 
-                    firsts.Where(x => grammar.IsNonTerminal(x.First())).ToList().ForEach(x => { if (!result.Contains(x)) queue.Enqueue(x); });
+                    firsts
+                        .Where(x => grammar.IsNonTerminal(x.First()))
+                        .ToList()
+                        .ForEach(x => { if (!result.Contains(x)) queue.Enqueue(x); });
 
                     result.UnionWith(firsts);
                 }    
@@ -43,25 +49,31 @@
             List<string> GetLast(string key)
             {
                 var result = new HashSet<string>();
-                var firsts = grammar.P[key]
+                var lasts = grammar.P[key]
                     .Select(x => x.Last().ToString())
                     .ToList();
 
-                result.UnionWith(firsts);
+                result.UnionWith(lasts);
 
                 Queue<string> queue = new();
-                result.Where(x => grammar.IsNonTerminal(x.Last())).ToList().ForEach(x => queue.Enqueue(x));
+                result
+                    .Where(x => grammar.IsNonTerminal(x.Last()))
+                    .ToList()
+                    .ForEach(x => queue.Enqueue(x));
 
                 while (queue.Count > 0)
                 {
                     var currentKey = queue.Dequeue();
-                    firsts = grammar.P[currentKey]
+                    lasts = grammar.P[currentKey]
                         .Select(x => x.Last().ToString())
                         .ToList();
 
-                    firsts.Where(x => grammar.IsNonTerminal(x.Last())).ToList().ForEach(x => { if (!result.Contains(x)) queue.Enqueue(x); });
+                    lasts
+                        .Where(x => grammar.IsNonTerminal(x.Last()))
+                        .ToList()
+                        .ForEach(x => { if (!result.Contains(x)) queue.Enqueue(x); });
 
-                    result.UnionWith(firsts);
+                    result.UnionWith(lasts);
 
                 }
                 return result.ToList();

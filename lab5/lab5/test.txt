@@ -1,6 +1,6 @@
 ﻿S A B C D
 a b c d e f g
-efefebefeg
+efefebeg
 S->Ag
 A->AbD
 A->C
